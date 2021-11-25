@@ -4,7 +4,7 @@ Title: Used for analysing bird song data.
 Version: 1.0
 Date: 2021-05-05
 Author: Anthony Kwong
-Maintainer: shingyan.kwong@manchester.ac.uk
+Maintainer: Anthony Kwong <shingyan.kwong@manchester.ac.uk>
 Description: Contains functions for analysing bird song data as per my PhD projects. 
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.5),
