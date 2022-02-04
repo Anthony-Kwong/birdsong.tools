@@ -4,12 +4,14 @@
 \alias{add_metadata}
 \title{add_metadata function}
 \usage{
-add_metadata(data, metadata)
+add_metadata(data, metadata, cols)
 }
 \arguments{
 \item{data}{: A dataframe with ID and some other columns}
 
 \item{metadata:}{A metadata table with ID}
+
+\item{cols:}{Vector of column indices, indicating which columns of metadata to copy over.}
 }
 \value{
 The original dataframe with the additional columns from the 
@@ -19,6 +21,7 @@ metadata.
 Add the metadata to a dataframe based on a common ID column.
 }
 \examples{
-data = tibble::tibble(x = c(1,2), ID = c("JS001", "JS002"))
-metadata = tibble::tibble(y = c(3,4), ID = c("JS001", "JS002"))
+data = tibble::tibble(Bird.ID = c("JS001", "JS002"),a = c(1,2), b = c(1,2))
+metadata = tibble::tibble(Bird.ID = c("JS001", "JS002"), x= c(3,4), y = c(5,6), z = c(7,8))
+add_metadata(data,metadata)
 }

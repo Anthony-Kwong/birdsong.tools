@@ -16,8 +16,9 @@ each note is in an introduction or not.
 }
 \description{
 Takes a unit table and identifies the notes that are part of the introduction. 
-An introduction are a contiguous sequence of notes at the beginning of a song,
-which are less than 0.25s apart. The introductions cut off after 5 notes.
+The first note is always part of the introduction. Subsequent notes are included
+into the introduction until there are at least 5 continguous notes which are 
+<0.25s apart.
 }
 \examples{
 unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 0.2, 1.8, 2.5), end = c(0.45, 0.7, 0.9, 0.4, 2, 3), pos = c(1,2,3,1,2,3),sound.files = c(rep("JS001.wav",3),rep("JS002.wav", 3)), note_label = "Curve")

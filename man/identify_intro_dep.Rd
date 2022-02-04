@@ -21,8 +21,9 @@ to the introduction. The notes from the input are all from the same
 recording.
 }
 \examples{
-unit_table = tibble::tibble(start = c(0.2, 0.6, 0.75, 1.1, 1.8, 2.5, 4),
-end = c(0.25, 0.7, 0.9, 1.6, 1.9, 3, 4.2),pos = seq(7),sound.files = "JS001.wav")
+unit_table = tibble::tibble(start = c(0.2, 0.6, 0.75, 1.1, 1.8, 2.5, 4, 5, 6, 7, 8),
+end = c(0.25, 0.7, 0.9, 1.6, 1.9, 3, 4.2, 5.5, 6.8, 7.6, 8.4), selec = seq(11),sound.files = "JS001.wav",
+note_label = "Wave")
 identify_intro_dep(unit_table)
 
 }

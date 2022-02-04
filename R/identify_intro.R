@@ -3,7 +3,7 @@
 #' Takes a unit table and identifies the notes that are part of the introduction. 
 #' The first note is always part of the introduction. Subsequent notes are included
 #' into the introduction until there are at least 5 continguous notes which are 
-#' <0.25s apart. 
+#' <0.25s apart. UNFINISHED.
 #' 
 #'
 #' @param unit_table: A unit table tibble containing the original sound file, 
@@ -30,11 +30,4 @@ identify_intro <- function(unit_table){
   return(res)
 }
 
-# numbers = c(1,2,3,5,7,8)
-# 
-# difference = diff(numbers) == 1
-# ## [1]  TRUE  TRUE FALSE FALSE  TRUE
-# 
-# ## find alteast one consecutive TRUE
-# any(tail(difference, -1) &
-#       head(difference, -1))
+

@@ -18,6 +18,6 @@ Takes a unit table of notes and generates a corresponding
 unit table for its gaps.
 }
 \examples{
-unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 0.2, 1.8, 2.5), end = c(0.45, 0.7, 0.9, 0.4, 2, 3), pos = c(1,2,3,1,2,3),sound.files = c(rep("JS001.wav",3),rep("JS002.wav", 3)), note_label = "Curve")
+unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 0.2, 1.8, 2.5), end = c(0.45, 0.7, 0.9, 0.4, 2, 3), selec = c(1,2,3,1,2,3),sound.files = c(rep("JS001.wav",3),rep("JS002.wav", 3)), note_label = "Curve")
 get_gaps(unit_table)
 }
