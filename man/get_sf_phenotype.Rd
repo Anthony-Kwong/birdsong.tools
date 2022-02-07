@@ -18,7 +18,9 @@ get_sf_phenotype(metadata, phenotype_table, phenotype_index)
 }
 \description{
 Adds the social father phenotype based on a phenotype table and a metadata table. If
-the social father is NA (i.e. unknown), the value is NA.
+the social father is NA (i.e. unknown), the value is NA. Function goes through each 
+row in phenotype table and checks the father. Then we get the father's phenotype from the same
+table.
 }
 \examples{
 metadata = tibble::tibble(Bird.ID = c("JS01","JS02") , Social.Father = c("JS02",NA))

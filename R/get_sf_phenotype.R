@@ -10,6 +10,7 @@
 #' @param phenotype_index: Index of variable of interest in phenotype_table.
 #' @return: The phenotype table with an additional column for the social father's phenotype.
 #' @importFrom dplyr pull
+#' @importFrom tibble tibble
 #' @export
 #'
 #' @examples metadata = tibble::tibble(Bird.ID = c("JS01","JS02") , Social.Father = c("JS02",NA))
@@ -19,8 +20,9 @@ get_sf_phenotype <- function(metadata, phenotype_table, phenotype_index){
   #initialise vector of sf phenotypes
   sf_phenotype = rep(NA,nrow(phenotype_table) )
   #take vector of phenotypes from the phenotype table
-  #phenotypes = phenotype_table[,phenotype_index]
   phenotypes = dplyr::pull(phenotype_table, phenotype_index)
+  #save the class
+  var_class = class(phenotypes)
   
   #loop over each row in phenotype table
   for(i in 1:nrow(phenotype_table)){
@@ -38,13 +40,25 @@ get_sf_phenotype <- function(metadata, phenotype_table, phenotype_index){
       #sf_phenotype[i] = NA
       next
     }
-    print(i)
+    #print(i)
     #take sf_phenotype based on phenotype_table
-    #sf_phenotype[i] =  phenotypes[which(phenotype_table$Bird.ID == sf),]
-    sf_phenotype[i] =  phenotypes[which(phenotype_table$Bird.ID == sf)]
+    
+    #account for how R stores dates differently
+    if(class(phenotypes)=="Date"){
+      #format(as.Date("11-Jan-2011",format="%d-%b-%Y"), "%m/%d/%y")
+      sf_phenotype[i] = format( as.Date(phenotypes[which(phenotype_table$Bird.ID == sf)], format="%d/%b/%Y") )
+    } else {
+      sf_phenotype[i] =  phenotypes[which(phenotype_table$Bird.ID == sf)]
+    }
   }
   #turn sf_phenotype back into a vector
   sf_phenotype_vec = unlist(sf_phenotype)
+  
+  #change dates back into dates
+  if(var_class=="Date"){
+    res = tibble::tibble(phenotype_table, sf_phenotype = as.Date(sf_phenotype))
+    return(res)
+  }
   
   res = tibble::tibble(phenotype_table, sf_phenotype = sf_phenotype_vec)
   return(res)
