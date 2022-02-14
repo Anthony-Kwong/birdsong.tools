@@ -14,8 +14,4 @@ test_that("get_gaps works",{
   
   expect_equal(output, ans)
   
-  #åexpect_equal(1,2)
 })
-
-#add transitions to get_gaps function
-
