@@ -7,13 +7,23 @@
 get_var_score_dep(gap_table)
 }
 \arguments{
-\item{gap_table}{}
+\item{gap_table:}{A tibble as produced using the get_gaps function. It has columns sound.files, gap_dur,
+selec and transitions.}
 }
 \value{
-
+A numeric, scalar score.
 }
 \description{
 Dependency function for get_var_score. Not to be used as a standalone. Takes a gap_table for gaps
-belonging to the same transition type and computes the variability score. The formula is 
-\eqn{score = var{ \frac{1}{\bar{G}_{ab} } } }.
+belonging to the same transition type and computes the variability score. The score is the variance
+of all the gaps, divided by their mean.
+}
+\examples{
+unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 0.2, 1.8, 2.5), 
+end = c(0.45, 0.7, 0.9, 0.4, 2, 3), 
+selec = c(1,2,3,1,2,3),
+sound.files = c(rep("JS001.wav",3),rep("JS002.wav", 3)), 
+note_label = rep(c("A","B","C"),2))
+output = get_gaps(unit_table)
+get_var_score_dep(output)
 }

@@ -27,12 +27,39 @@ gap_var_score <- function(gap_table){
   #this needs to pool all the recordings for each bird
   
   #get all available transitions for the bird across all its recordings
-  trans = unique(output$transitions)
-  lapply(trans, function(transition){
-    trans_table = dplyr::filter(output, transitions == transition)
-    return(get_var_score_dep(trans_table))
+  trans = unique(gap_table$transitions)
+  #compute scores across all transition types
+  scores = sapply(trans, function(transition){
+    trans_table = dplyr::filter(gap_table, transitions == transition)
+    #compute the var score for that transition type
+    score = get_var_score_dep(trans_table)
+    #record the number of occurences for that transition
+    count = nrow(trans_table)
+    #res = tibble::tibble(score = score, count = count)
+    res = c(score = score, count = count)
+    return(res)
   })
-  #dplyr::filter(output, transitions == trans[1])
+  #var score for each transition type
+  var_scores = scores[1,]
+  #counts of each transition type
+  trans_counts = scores[2,]
+  #total number of transitions
+  total_trans = nrow(gap_table)
+  #number of difference transition types
+  num_trans = length(trans)
   
-  return(0)
+  a = rep(NA,num_trans)
+  #lin combination of the scores
+  lc_score = rep(NA,num_trans)
+  #compute constants
+  for(i in 1:num_trans){
+    #a is recorded here for ease of debugging
+    a[i] = trans_counts[i]/(total_trans - num_trans)
+    lc_score[i] = a[i]*var_scores[i]
+  }
+  
+  #compute final score
+  score = sum(lc_score)
+
+  return(score)
 }
