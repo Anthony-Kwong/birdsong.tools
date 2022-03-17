@@ -7,7 +7,7 @@
 #' @param cols: Vector of column indices, indicating which columns of metadata to copy over.
 #' 
 #' @importFrom magrittr %>%
-#' @importFrom dplyr bind_rows
+#' @importFrom data.table rbindlist
 #'
 #' @return The original dataframe with the additional columns from the 
 #' metadata.
@@ -15,7 +15,7 @@
 #'
 #' @examples data = tibble::tibble(Bird.ID = c("JS001", "JS002"),a = c(1,2), b = c(1,2))
 #' metadata = tibble::tibble(Bird.ID = c("JS001", "JS002"), x= c(3,4), y = c(5,6), z = c(7,8))
-#' add_metadata(data,metadata)
+#' add_metadata(data,metadata, col = 1)
 add_metadata <- function(data, metadata, cols){
   
   #check inputs
@@ -41,13 +41,13 @@ add_metadata <- function(data, metadata, cols){
   meta_rows = lapply(as.list(data$Bird.ID), function(Bird.ID){
     row_index = which(metadata$Bird.ID == Bird.ID)
     meta_info = metadata[row_index, cols]
-    meta_info$Bird.ID = NULL
+    #meta_info$Bird.ID = NULL
     return(meta_info)
-    #return(metadata)
   })
+  metarows_df = data.table::rbindlist(meta_rows)
   
   #bind the new metadata columns to the main dataframe
-  res = cbind(data, dplyr::bind_rows(meta_rows))
+  res = dplyr::bind_cols(data, metarows_df)
   
   return(res)
 }

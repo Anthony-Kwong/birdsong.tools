@@ -16,7 +16,7 @@
 #'get_duration(unit_table)
 get_duration <- function(unit_table){
   #check songs are all from the one recording
-  if(unique(unit_table) > 1){
+  if( length( unique(unit_table$sound.files) ) > 1){
     msg = "Only one recording allowed in get_duration."
     stop(msg)
   }

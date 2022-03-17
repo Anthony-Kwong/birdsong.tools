@@ -5,7 +5,8 @@ test_that("add_metadata works",{
                             x = c(1,2), y = c(3,4), z = c(5,6))
   
   output = add_metadata(data = data,metadata = metadata, cols = c(2,3))
-  ans = cbind(data, x = metadata$x, y = metadata$y)
-  
+  ans = tibble::tibble(
+    cbind(data, x = metadata$x, y = metadata$y)
+  )
   expect_equal(output, ans)
 })

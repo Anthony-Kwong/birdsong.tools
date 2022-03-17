@@ -24,7 +24,7 @@ For each transition type AB, compute
 
 \deqn{score_AB = log( individual mean AB gaps / population mean AB gaps )}
 
-The final score is the avaerage of the scores for every transition type in the individual bird.
+The final score is the average of the scores for every transition type in the individual bird.
 }
 \examples{
    unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 1.2, 1.8, 2.5), 

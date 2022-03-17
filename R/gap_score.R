@@ -6,7 +6,7 @@
 #' 
 #' \deqn{score_AB = log( individual mean AB gaps / population mean AB gaps )}
 #' 
-#' The final score is the avaerage of the scores for every transition type in the individual bird. 
+#' The final score is the average of the scores for every transition type in the individual bird. 
 #' 
 #' @param gap_table: A tibble as produced using the get_gaps function. It has Bird.ID, gap_dur,
 #' selec and transitions.  
