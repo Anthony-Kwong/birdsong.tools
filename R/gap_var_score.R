@@ -1,6 +1,6 @@
 #' get_var_score function
 #' 
-#' Takes a gap_table for gaps belonging to the same transition type and computes the overall variability score
+#' Takes a gap_table for an individual and computes the overall variability score
 #' for an individual bird. 
 #' 
 #' The function first sorts the gaps by transition type and computes a score for each transition. This 

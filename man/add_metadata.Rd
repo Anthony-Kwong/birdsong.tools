@@ -23,5 +23,5 @@ Add the metadata to a dataframe based on a common ID column.
 \examples{
 data = tibble::tibble(Bird.ID = c("JS001", "JS002"),a = c(1,2), b = c(1,2))
 metadata = tibble::tibble(Bird.ID = c("JS001", "JS002"), x= c(3,4), y = c(5,6), z = c(7,8))
-add_metadata(data,metadata)
+add_metadata(data,metadata, col = 1)
 }

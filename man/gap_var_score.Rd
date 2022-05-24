@@ -14,7 +14,7 @@ selec and transitions.}
 A numeric, scalar score.
 }
 \description{
-Takes a gap_table for gaps belonging to the same transition type and computes the overall variability score
+Takes a gap_table for an individual and computes the overall variability score
 for an individual bird.
 }
 \details{
