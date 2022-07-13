@@ -15,8 +15,8 @@ A numeric, scalar score.
 }
 \description{
 Dependency function for get_var_score. Not to be used as a standalone. Takes a gap_table for gaps
-belonging to the same transition type and computes the variability score. The score is the variance
-of all the gaps, divided by their mean.
+belonging to the same transition type and computes the variability score. The score is the standard
+deviation of all the gaps, divided by their mean.
 }
 \examples{
 unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 0.2, 1.8, 2.5), 

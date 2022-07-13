@@ -12,8 +12,13 @@
 #'
 #' @param gap_table: A tibble as produced using the get_gaps function. It has Bird.ID, gap_dur,
 #' selec and transitions. 
+#' @param ID: The ID of the bird to compute the gap variance score for. 
+#' 
+#' @importFrom magrittr %>%
+#' @importFrom dplyr filter 
+#' @importFrom tibble tibble
 #'
-#' @return A numeric, scalar score. 
+#' @return A numeric, scalar score for the bird
 #' @export
 #'
 #' @examples unit_table = tibble::tibble(start = c(0.37, 0.6, 0.75, 0.2, 1.8, 2.5), 
@@ -23,43 +28,69 @@
 #' note_label = rep(c("A","B","C"),2))
 #' output = get_gaps(unit_table)
 #' get_var_score_dep(output)
-gap_var_score <- function(gap_table){
-  #this needs to pool all the recordings for each bird
+gap_var_score <- function(gap_table, ID){
+  #get individual table for the selected bird
+  bird_data = gap_table %>%
+    dplyr::filter(Bird.ID == ID)
   
   #get all available transitions for the bird across all its recordings
-  trans = unique(gap_table$transitions)
+  trans = unique(bird_data$transitions)
   #compute scores across all transition types
-  scores = sapply(trans, function(transition){
-    trans_table = dplyr::filter(gap_table, transitions == transition)
+  Cjb = lapply(trans, function(transition){
+    trans_table = dplyr::filter(bird_data, transitions == transition)
     #compute the var score for that transition type
     score = get_var_score_dep(trans_table)
-    #record the number of occurences for that transition
+    #record the number of occurrences for that transition
     count = nrow(trans_table)
-    #res = tibble::tibble(score = score, count = count)
-    res = c(score = score, count = count)
+    res = tibble::tibble(score = score, transition = transition)
     return(res)
   })
-  #var score for each transition type
-  var_scores = scores[1,]
-  #counts of each transition type
-  trans_counts = scores[2,]
-  #total number of transitions
-  total_trans = nrow(gap_table)
-  #number of difference transition types
-  num_trans = length(trans)
+  Cjb = do.call(rbind, Cjb)
   
-  a = rep(NA,num_trans)
-  #lin combination of the scores
-  lc_score = rep(NA,num_trans)
-  #compute constants
-  for(i in 1:num_trans){
-    #a is recorded here for ease of debugging
-    a[i] = trans_counts[i]/(total_trans - num_trans)
-    lc_score[i] = a[i]*var_scores[i]
-  }
+  #compute the weighted population mean coefficient of variation for each transition type
+  #input: transition type, population gap table
+  Cj = lapply(trans, function(t){
+    coef = get_var_score_dep2(t, gap_table)
+    tibble::tibble(coef, transition = t)
+  })
+  Cj = do.call(rbind, Cj)
   
-  #compute final score
-  score = sum(lc_score)
-
-  return(score)
+  #compute Zjb, the log ratio Cjb/Cj
+  ntrans = nrow(Cjb)
+  Z = lapply(seq(ntrans),function(x){
+    top = Cjb[x,]
+    bot = Cj[x,]
+    trans = top$transition
+    if(bot$coef == 0){
+      output = tibble::tibble(Zjb = 0, transition = trans) 
+      return(output)
+    } else {
+      ratio = log(top$score/bot$coef)
+      output = tibble::tibble(Zjb = ratio, transition = trans)
+      return(output)
+    }
+  })
+  Z = do.call(rbind, Z)
+  
+  #compute G
+  
+  G = sapply(seq(ntrans), function(x){
+    d = Z[x,]
+    trans = d$transition
+    trans_table = dplyr::filter(bird_data, transitions == trans)
+    nj = nrow(trans_table)
+    (nj-1)*d$Zjb
+  })
+  
+  # test = tibble::tibble(Cjb = Cjb, Cj = Cj, Z = Z, G)
+  # print(test)
+  
+  #total number of transitions/gaps produced by bird
+  Nb = nrow(bird_data)
+  #total number of transition types produced by bird b
+  kb = length(unique(bird_data$transitions))
+  #final score for bird b
+  Gb = 1/(Nb - kb)*sum(G)
+  
+  return(Gb)
 }

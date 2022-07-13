@@ -4,14 +4,16 @@
 \alias{gap_var_score}
 \title{get_var_score function}
 \usage{
-gap_var_score(gap_table)
+gap_var_score(gap_table, ID)
 }
 \arguments{
 \item{gap_table:}{A tibble as produced using the get_gaps function. It has Bird.ID, gap_dur,
 selec and transitions.}
+
+\item{ID:}{The ID of the bird to compute the gap variance score for.}
 }
 \value{
-A numeric, scalar score.
+A numeric, scalar score for the bird
 }
 \description{
 Takes a gap_table for an individual and computes the overall variability score
