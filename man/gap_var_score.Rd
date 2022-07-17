@@ -4,13 +4,19 @@
 \alias{gap_var_score}
 \title{get_var_score function}
 \usage{
-gap_var_score(gap_table, ID)
+gap_var_score(gap_table, bird, denom_var = T, min = 2)
 }
 \arguments{
 \item{gap_table:}{A tibble as produced using the get_gaps function. It has Bird.ID, gap_dur,
 selec and transitions.}
 
-\item{ID:}{The ID of the bird to compute the gap variance score for.}
+\item{bird:}{The ID of the bird to compute the gap variance score for.}
+
+\item{denom_var:}{logical indicating whether the standard denominator for variance N-1 should be used 
+instead of N. T is for N-1, F for N. Default is N-1.}
+
+\item{min:}{The minimum number of transitions required for computing the bird's individual Cjb (coefficient of variation).
+If the bird sings less of a transition than min, the coefficient is 0. Default min = 2.}
 }
 \value{
 A numeric, scalar score for the bird

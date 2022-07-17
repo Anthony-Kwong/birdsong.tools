@@ -46,5 +46,28 @@ test_that("get_var_score_dep works",{
   output = get_var_score_dep(gap_table)
   ans = test_gvs_dep(gap_table)
   expect_equal(ans,output)  
-    
+  
+  #check min argument
+  gaps = c(0.1,0.2,0.3)
+  gap_table = tibble::tibble(
+    sound.files = "JS001.wav",
+    gap_dur = gaps,
+    selec = c(1,2,3),
+    transitions = "A-A"
+  )
+  output = get_var_score_dep(gap_table,min = 4)
+  ans = test_gvs_dep(gap_table,min = 4)
+  expect_equal(output, ans)
+  
+  #check variance denominator
+  gaps = c(0.1,0.2,0.3)
+  gap_table = tibble::tibble(
+    sound.files = "JS001.wav",
+    gap_dur = gaps,
+    selec = c(1,2,3),
+    transitions = "A-A"
+  )
+  output = get_var_score_dep(gap_table,denom_var = F)
+  ans = test_gvs_dep(gap_table, denom_var = F)
+  expect_equal(output, ans)
 })

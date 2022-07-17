@@ -12,7 +12,11 @@
 #'
 #' @param gap_table: A tibble as produced using the get_gaps function. It has Bird.ID, gap_dur,
 #' selec and transitions. 
-#' @param ID: The ID of the bird to compute the gap variance score for. 
+#' @param bird: The ID of the bird to compute the gap variance score for. 
+#' @param denom_var: logical indicating whether the standard denominator for variance N-1 should be used 
+#' instead of N. T is for N-1, F for N. Default is N-1. 
+#' @param min: The minimum number of transitions required for computing the bird's individual Cjb (coefficient of variation).
+#' If the bird sings less of a transition than min, the coefficient is 0. Default min = 2.
 #' 
 #' @importFrom magrittr %>%
 #' @importFrom dplyr filter 
@@ -28,10 +32,10 @@
 #' note_label = rep(c("A","B","C"),2))
 #' output = get_gaps(unit_table)
 #' get_var_score_dep(output)
-gap_var_score <- function(gap_table, ID){
+gap_var_score <- function(gap_table, bird, denom_var = T, min = 2){
   #get individual table for the selected bird
   bird_data = gap_table %>%
-    dplyr::filter(Bird.ID == ID)
+    dplyr::filter(Bird.ID == bird)
   
   #get all available transitions for the bird across all its recordings
   trans = unique(bird_data$transitions)
@@ -39,7 +43,7 @@ gap_var_score <- function(gap_table, ID){
   Cjb = lapply(trans, function(transition){
     trans_table = dplyr::filter(bird_data, transitions == transition)
     #compute the var score for that transition type
-    score = get_var_score_dep(trans_table)
+    score = get_var_score_dep(trans_table, denom_var, min)
     #record the number of occurrences for that transition
     count = nrow(trans_table)
     res = tibble::tibble(score = score, transition = transition)
@@ -61,7 +65,7 @@ gap_var_score <- function(gap_table, ID){
     top = Cjb[x,]
     bot = Cj[x,]
     trans = top$transition
-    if(bot$coef == 0){
+    if(bot$coef == 0 || top$score == 0){
       output = tibble::tibble(Zjb = 0, transition = trans) 
       return(output)
     } else {

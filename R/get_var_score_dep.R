@@ -31,13 +31,13 @@ get_var_score_dep <- function(gap_table, denom_var = T, min = 2){
   
   #account for case when there is only one occurrence of a transition
   if(nrow(gap_table) < min){
-    msg = paste("Only one occurrence of transition ", gap_table$transitions[1], " found in recording ",
+    msg = paste("Insufficient number of transition ", gap_table$transitions[1], " found in recording ",
                 gap_table$sound.files[1], " found. Setting variance score for that transition for that individual to 0.")
     warning(msg)
     return(0)
   }
   
-  #get number of occurences
+  #get number of occurrences
   N = nrow(gap_table)
   #choice to use the version of std with N denominator rather than N-1
   if(denom_var){

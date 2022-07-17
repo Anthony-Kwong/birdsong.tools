@@ -58,7 +58,7 @@ test_that("gap_var_score function works",{
   gap_table = get_gaps(rbind(unit_table1,unit_table2))
   gap_table = dplyr::mutate(gap_table,Bird.ID = c(rep("JS001",5), rep("JS002",5) ))
   
-  output = gap_var_score(gap_table, ID = "JS001")
-  test = test_fct(gap_table, ID = "JS001")
+  output = gap_var_score(gap_table, bird = "JS001")
+  test = test_fct(gap_table, ID= "JS001")
   expect_equal(output, test)
 })
