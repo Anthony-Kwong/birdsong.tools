@@ -11,7 +11,7 @@ compute_IOI(unit_table)
 start/end times of the note,the note position and note_label.}
 }
 \value{
-: A dataframe containing the ID, recording and IOIs of the start and end notes, note classes.
+: A dataframe containing the ID, recording and IOIs of the start and end notes, note classes and the order of the ratio in the recording.
 }
 \description{
 Takes a unit table and computes the inter-onset-intervals for a single sound file.

@@ -4,21 +4,22 @@
 \alias{rhythm_ratios}
 \title{rhythm ratios function}
 \usage{
-rhythm_ratios(unit_table)
+rhythm_ratios(ioi)
 }
 \arguments{
-\item{unit_table:}{A unit table tibble containing the original sound file, 
+\item{ioi:}{An ioi tibble containing the original sound file, 
 start/end times of the note,the note position and note_label.}
 }
 \value{
 : A vector of onset intervals
 }
 \description{
-Computes the rhythm ratios using a unit table. Onset intervals are defined as the time between the start of one note
+Computes the rhythm ratios using the a table of IOI (output of compute_IOI). Onset intervals are defined as the time between the start of one note
 and the start of the subsequent note. Rhythm ratios are the ratios of adjacent onset intervals. 
 https://doi-org.manchester.idm.oclc.org/10.1016/j.cub.2021.09.032
 }
 \examples{
 unit_table = tibble::tibble(start = c(0.37, 0.6, 1.2, 1.8), end = c(0.45, 0.7, 1.4, 2), pos = seq(1,4),sound.files = "JS001.wav" , note_label = "Curve")
-onset_intervals(unit_table)
+ioi = compute_IOI(unit_table)
+onset_intervals(ioi)
 }
