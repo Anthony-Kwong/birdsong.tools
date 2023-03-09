@@ -25,4 +25,12 @@ test_that("scramble_n2 works",{
   output = scramble_n2(ioi)
   ans = test_scramble_n2(ioi, index = output[[2]])
   expect_equal(tibble::tibble(output[[1]]), ans)
+  
+  #test 3 (case where there is only 1 note of a particular type)
+  unit_table = tibble::tibble(start = c(0.37, 0.6, 1.2, 1.9, 2.3, 5, 6, 7), end = c(0.45, 0.7, 1.4, 2, 2.9, 5.5, 6.2, 7.5),
+                              pos = seq(8),sound.files = "JS001.wav" , note_label = c(rep("A",7),"B"))
+  ioi = compute_IOI(unit_table)
+  output = scramble_n2(ioi)
+  ans = test_scramble_n2(ioi, index = output[[2]])
+  expect_equal(tibble::tibble(output[[1]]), ans)
 })

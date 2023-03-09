@@ -19,9 +19,9 @@
 scramble_n2 <- function(ioi){
   #obtain note types to scramble
   note_types = unique(ioi$note2)
-  note_types = na.omit(note_types)
+  note_types = as.character(na.omit(note_types))
   
-  #slice dataframe columns for permutation
+  #slice dataframe columns for permutation 
   slice_data = ioi[,4:6]
   
   #loop for each note type
@@ -30,9 +30,15 @@ scramble_n2 <- function(ioi){
     
     #get indices of every row where note2=n
     ori_index = which(ioi$note2 == n)
-    #permute the indices
-    perm_index = sample(ori_index, replace = F)
-    return(perm_index)
+    
+    #control for cases where ori_index only has one element. Sample(5) would give a random sample from the first 5 integers
+    if(length(ori_index) == 1){
+      return(ori_index)
+    } else {
+      #permute the indices
+      perm_index = sample(ori_index, replace = F)
+      return(perm_index)
+    }
   })
   
   new_rows = unlist(perm_row_indices)
