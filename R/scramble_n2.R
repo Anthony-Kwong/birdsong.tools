@@ -24,7 +24,7 @@ scramble_n2 <- function(ioi){
   #slice dataframe columns for permutation 
   slice_data = ioi[,4:6]
   
-  #loop for each note type
+  #loop for each note type, output permuted indices
   perm_row_indices = lapply(note_types, function(n){
     #for note type n, do:
     
@@ -36,11 +36,12 @@ scramble_n2 <- function(ioi){
       return(ori_index)
     } else {
       #permute the indices
-      perm_index = sample(ori_index, replace = F)
+      perm_index = sample(ori_index, replace = T)
       return(perm_index)
     }
   })
   
+  #bug found. This only works if the note types are all in order. e.g. A's first...then B's... then C's
   new_rows = unlist(perm_row_indices)
   
   #permute rows of sliced data
